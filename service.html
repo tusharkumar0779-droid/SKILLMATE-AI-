@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillMate AI — Services</title>
+ 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+ 
+<style>
+ 
+:root{
+  --ink:#0B1120;
+  --bg:#F5F7FC;
+  --surface:#FFFFFF;
+  --blue:#2563EB;
+  --purple:#7C3AED;
+  --green:#16A34A;
+  --slate:#5B6478;
+  --slate-light:#8B93A7;
+  --border:#E4E9F2;
+  --grad: linear-gradient(135deg,#2563EB 0%,#7C3AED 100%);
+  --grad-soft: linear-gradient(135deg,rgba(37,99,235,0.10) 0%,rgba(124,58,237,0.10) 100%);
+  --shadow-sm: 0 2px 8px rgba(15,23,42,0.06);
+  --shadow-md: 0 12px 32px rgba(15,23,42,0.08);
+  --shadow-lg: 0 25px 60px rgba(15,23,42,0.14);
+  --font-display:"Space Grotesk", sans-serif;
+  --font-body:"Inter", sans-serif;
+  --font-mono:"JetBrains Mono", monospace;
+}
+ 
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:var(--font-body);
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+ 
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:0.35;z-index:0;pointer-events:none;}
+.blob-1{width:460px;height:460px;background:#93C5FD;top:-160px;right:-120px;}
+.blob-2{width:400px;height:400px;background:#DDD6FE;bottom:-180px;left:-140px;}
+ 
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+ 
+/* ===== HEADER ===== */
+.top-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 0;
+}
+.brand{
+    font-family:var(--font-display);font-weight:700;font-size:18px;
+    display:flex;align-items:center;gap:9px;
+}
+.brand-mark{
+    width:28px;height:28px;border-radius:8px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:12.5px;font-weight:700;
+}
+.logout-btn{
+    padding:10px 20px;border:1px solid var(--border);border-radius:10px;
+    background:#fff;color:var(--ink);font-size:13.5px;font-weight:600;
+    font-family:var(--font-body);cursor:pointer;transition:all 0.15s ease;
+}
+.logout-btn:hover{border-color:var(--blue);color:var(--blue);}
+ 
+/* ===== HERO BANNER ===== */
+.welcome-card{
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.7);
+    border-radius:24px;
+    padding:36px 34px;
+    text-align:center;
+    box-shadow:var(--shadow-lg);
+    margin:8px 0 44px;
+}
+.badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--blue);font-weight:500;margin-bottom:14px;
+}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--grad);}
+.welcome-card h1{
+    font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-0.02em;margin-bottom:10px;
+}
+.welcome-card p{font-size:14.5px;color:var(--slate);max-width:520px;margin:0 auto;}
+ 
+/* ===== CATALOG ===== */
+.catalog-head{margin-bottom:24px;}
+.catalog-head span.eyebrow{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--blue);font-weight:500;
+}
+.catalog-head h2{
+    font-family:var(--font-display);font-size:24px;margin-top:8px;letter-spacing:-0.02em;
+}
+.catalog-head p{color:var(--slate);font-size:14.5px;margin-top:8px;}
+ 
+.course-list{display:flex;flex-direction:column;gap:14px;margin-bottom:60px;}
+ 
+.course-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    transition:box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.course-card.open{box-shadow:var(--shadow-md); border-color:transparent;}
+ 
+.course-header{
+    display:flex;align-items:center;gap:16px;
+    padding:18px 20px;
+    cursor:pointer;
+    user-select:none;
+}
+.course-icon{
+    width:44px;height:44px;border-radius:12px;
+    background:var(--grad-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+}
+.course-info{flex:1;}
+.course-info h3{
+    font-family:var(--font-display);font-size:16px;font-weight:600;
+}
+.course-info span{
+    font-family:var(--font-mono);font-size:11.5px;color:var(--slate-light);
+}
+.course-chevron{
+    width:30px;height:30px;border-radius:50%;
+    background:#F1F4FA;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--slate);font-size:13px;
+    transition:transform 0.25s ease, background 0.2s ease, color 0.2s ease;
+    flex-shrink:0;
+}
+.course-card.open .course-chevron{
+    transform:rotate(180deg);
+    background:var(--grad);color:#fff;
+}
+ 
+.topics-panel{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+}
+.course-card.open .topics-panel{max-height:4000px;}
+ 
+.topics-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    padding:6px 20px 24px;
+}
+.topic-tile{
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    background:#FAFBFF;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.topic-tile:hover{transform:translateY(-3px); box-shadow:var(--shadow-sm);}
+.topic-tile img{
+    width:100%;height:110px;object-fit:cover;
+    background:var(--grad-soft);
+}
+.topic-tile-body{padding:10px 12px 13px;}
+.topic-num{
+    font-family:var(--font-mono);
+    font-size:10px;color:var(--blue);letter-spacing:0.04em;
+}
+.topic-tile-body h4{
+    font-size:13px;font-weight:600;margin-top:4px;line-height:1.35;color:var(--ink);
+}
+ 
+/* ===== RESPONSIVE ===== */
+@media(max-width:820px){
+    .topics-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:560px){
+    .wrap{padding:0 18px;}
+    .welcome-card{padding:28px 22px;}
+    .topics-grid{grid-template-columns:1fr;padding:6px 14px 20px;}
+    .course-header{padding:16px;}
+}
+ 
+</style>
+</head>
+<body>
+ 
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+ 
+<div class="wrap">
+ 
+  <div class="top-bar">
+    <div class="brand"><span class="brand-mark">SM</span>SkillMate AI</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+ 
+  <div class="welcome-card">
+    <div class="badge">You're in</div>
+    <h1>🎉 Welcome to SkillMate AI</h1>
+    <p>Login and signup completed successfully. Your AI mentor is ready — pick a career path below to see its full roadmap.</p>
+  </div>
+ 
+  <div class="catalog-head">
+    <span class="eyebrow">Course Catalog</span>
+    <h2>14 Career Paths, Fully Mapped Out</h2>
+    <p>Tap a career to expand its complete topic list — from first lesson to capstone project.</p>
+  </div>
+ 
+  <div class="course-list" id="courseList"></div>
+ 
+</div>
+ 
+<script>
+ 
+/* ================= COURSE DATA ================= */
+const courses = [
+  { icon:"🤖", name:"Artificial Intelligence & Machine Learning", topics:[
+    "Python Programming Basics","Data Structures & Algorithms","Math for ML: Linear Algebra & Stats",
+    "NumPy & Pandas","Data Visualization","Exploratory Data Analysis","Supervised Learning",
+    "Unsupervised Learning","Model Evaluation & Tuning","Neural Networks Basics",
+    "Deep Learning with TensorFlow","Natural Language Processing","Computer Vision",
+    "MLOps & Model Deployment","Capstone AI Project"
+  ]},
+  { icon:"📊", name:"Data Science", topics:[
+    "Python for Data Science","SQL for Data Analysis","Statistics Fundamentals","Probability Theory",
+    "Data Cleaning & Wrangling","Data Visualization","Exploratory Data Analysis","Excel for Analysis",
+    "Machine Learning Basics","Regression Techniques","Classification Techniques","Time Series Analysis",
+    "A/B Testing","Big Data Tools","Business Intelligence Dashboards","Storytelling with Data",
+    "Capstone Data Project"
+  ]},
+  { icon:"💻", name:"Software Development", topics:[
+    "Programming Fundamentals","Object-Oriented Programming","Data Structures & Algorithms",
+    "Git & Version Control","Database Design (SQL)","NoSQL Databases","RESTful API Development",
+    "Backend Development","Frontend Basics","System Design Basics","Testing & Debugging",
+    "Design Patterns","Cloud Fundamentals","CI/CD Pipelines","Microservices Architecture",
+    "Security Best Practices","Agile & Scrum","Capstone Software Project"
+  ]},
+  { icon:"🌐", name:"Web Development", topics:[
+    "HTML & Semantic Markup","CSS Fundamentals","Responsive Design","JavaScript Basics",
+    "DOM Manipulation","Modern JavaScript (ES6+)","React Fundamentals","State Management",
+    "Node.js & Express","REST APIs","Databases for Web Apps","Authentication & Authorization",
+    "Web Performance Optimization","Version Control with Git","Deployment & Hosting",
+    "Web Accessibility","Capstone Web Project"
+  ]},
+  { icon:"🛡️", name:"Cyber Security", topics:[
+    "Networking Fundamentals","Operating Systems Security","Cryptography Basics",
+    "Ethical Hacking Fundamentals","Web Application Security","Network Security & Firewalls",
+    "Malware Analysis Basics","Penetration Testing","Security Tools (Wireshark, Nmap)",
+    "Vulnerability Assessment","Incident Response","Cloud Security Basics",
+    "Security Compliance & Governance","Digital Forensics Basics","Linux for Security",
+    "Bug Bounty Fundamentals","Capstone Security Project"
+  ]},
+  { icon:"🎨", name:"UI/UX Design", topics:[
+    "Design Thinking Fundamentals","User Research Methods","Wireframing Basics",
+    "Information Architecture","Typography & Color Theory","Figma Fundamentals","Prototyping",
+    "Usability Testing","Interaction Design","Design Systems","Mobile App Design",
+    "Accessibility in Design","Design Handoff to Developers","Portfolio Case Studies",
+    "Micro-interactions & Motion","Design Critique Skills","Capstone UX Project"
+  ]},
+  { icon:"📱", name:"Digital Marketing", topics:[
+    "Marketing Fundamentals","SEO Basics","Content Marketing","Social Media Marketing",
+    "Email Marketing","Google Ads Fundamentals","Meta Ads (Facebook/Instagram)",
+    "Analytics & Google Analytics","Copywriting for Marketing","Brand Strategy",
+    "Influencer Marketing","Marketing Funnels","Conversion Rate Optimization",
+    "Marketing Automation Tools","Affiliate Marketing Basics","Growth Hacking Strategies",
+    "Capstone Marketing Campaign"
+  ]},
+  { icon:"🎬", name:"Content Creation & YouTube", topics:[
+    "Content Strategy","Scriptwriting Basics","Camera & Shooting Basics",
+    "Video Editing Fundamentals","Thumbnail Design","YouTube SEO","Audience Growth Strategies",
+    "Personal Branding","Livestreaming Basics","Podcasting Fundamentals","Monetization Strategies",
+    "Analytics for Creators","Sponsorship & Brand Deals","Community Building",
+    "Content Repurposing","Consistency & Content Calendar","Capstone Channel Launch"
+  ]},
+  { icon:"✂️", name:"Video Editing", topics:[
+    "Editing Software Basics","Timeline & Cuts","Color Grading Fundamentals",
+    "Audio Editing & Mixing","Motion Graphics Basics","Transitions & Effects",
+    "Storytelling through Editing","Multi-cam Footage Workflow","Text & Titles Design",
+    "Green Screen & Compositing","Export Settings & Formats","After Effects Basics",
+    "Editing for Social Media","Editing for YouTube","Client Workflow & Feedback",
+    "Building an Editing Portfolio","Capstone Edit Project"
+  ]},
+  { icon:"🖌️", name:"Graphic Design", topics:[
+    "Design Fundamentals","Color Theory","Typography Basics","Photoshop Basics",
+    "Illustrator Basics","Logo Design","Branding & Identity Design","Print Design Basics",
+    "Social Media Graphics","Packaging Design Basics","Layout & Composition",
+    "Digital Illustration","Mockup Design","Design Software Workflow",
+    "Building a Design Portfolio","Client Briefs & Feedback","Capstone Design Project"
+  ]},
+  { icon:"📒", name:"Accountancy", topics:[
+    "Basics of Accounting","Journal Entries & Ledgers","Trial Balance & Adjustments",
+    "Financial Statements","GST Fundamentals","GST Filing & Returns","Income Tax Basics",
+    "TDS Fundamentals","Payroll Accounting","Cost Accounting Basics","Excel for Accounting",
+    "Tally ERP Fundamentals","Bank Reconciliation","Accounts Receivable & Payable",
+    "Auditing Basics","Budgeting & Forecasting","Financial Ratio Analysis",
+    "Capstone Accounting Project"
+  ]},
+  { icon:"💹", name:"Finance", topics:[
+    "Personal Finance Basics","Financial Markets Overview","Investment Fundamentals",
+    "Stock Market Basics","Mutual Funds & SIPs","Financial Statement Analysis",
+    "Corporate Finance Basics","Risk Management","Portfolio Management",
+    "Financial Modeling in Excel","Valuation Techniques","Banking & Financial Services",
+    "Insurance Fundamentals","Tax Planning Basics","Behavioral Finance",
+    "Cryptocurrency & Digital Assets","Financial Planning for Clients","Capstone Finance Project"
+  ]},
+  { icon:"🩺", name:"Doctor / Medical Preparation", topics:[
+    "Physics Foundation","Chemistry Foundation","Biology: Botany Basics","Biology: Zoology Basics",
+    "Human Physiology","Cell Biology & Genetics","Organic Chemistry Concepts",
+    "Inorganic Chemistry Concepts","Physical Chemistry Concepts","Ecology & Environment",
+    "Previous Year Question Analysis","Mock Test Practice","Time Management for Exams",
+    "Revision Techniques","Diagram-based Learning","Numerical Problem Solving",
+    "Final Revision & Strategy"
+  ]},
+  { icon:"🚀", name:"Entrepreneurship", topics:[
+    "Startup Fundamentals","Idea Validation","Market Research Basics","Business Model Canvas",
+    "MVP Development","Financial Planning for Startups","Fundraising & Pitching",
+    "Legal Basics for Startups","Branding for Startups","Digital Marketing for Startups",
+    "Sales Fundamentals","Team Building & Hiring","Product Management Basics",
+    "Growth Strategy","Networking & Mentorship","Case Studies of Successful Startups",
+    "Capstone Business Plan"
+  ]}
+];
+ 
+/* ================= RENDER ================= */
+const listEl = document.getElementById("courseList");
+ 
+function slug(str){
+  return str.toLowerCase().replace(/[^a-z0-9\s]/g,"").trim().split(/\s+/).slice(0,2).join(",");
+}
+ 
+courses.forEach((course, ci) => {
+  const card = document.createElement("div");
+  card.className = "course-card";
+  card.id = "course-" + ci;
+ 
+  const header = document.createElement("div");
+  header.className = "course-header";
+  header.onclick = () => toggleCourse(ci);
+  header.innerHTML = `
+    <div class="course-icon">${course.icon}</div>
+    <div class="course-info">
+      <h3>${course.name}</h3>
+      <span>${course.topics.length} TOPICS · BEGINNER TO ADVANCED</span>
+    </div>
+    <div class="course-chevron">▾</div>
+  `;
+ 
+  const panel = document.createElement("div");
+  panel.className = "topics-panel";
+ 
+  const grid = document.createElement("div");
+  grid.className = "topics-grid";
+ 
+  course.topics.forEach((topic, ti) => {
+    const tile = document.createElement("div");
+    tile.className = "topic-tile";
+    const kw = slug(topic) || "study";
+    const imgUrl = `https://loremflickr.com/320/220/${kw}?lock=${ci * 100 + ti}`;
+    tile.innerHTML = `
+      <img src="${imgUrl}" alt="${topic}" loading="lazy" onerror="this.style.display='none'">
+      <div class="topic-tile-body">
+        <span class="topic-num">TOPIC ${String(ti + 1).padStart(2,"0")}</span>
+        <h4>${topic}</h4>
+      </div>
+    `;
+    grid.appendChild(tile);
+  });
+ 
+  panel.appendChild(grid);
+  card.appendChild(header);
+  card.appendChild(panel);
+  listEl.appendChild(card);
+});
+ 
+function toggleCourse(index){
+  const card = document.getElementById("course-" + index);
+  card.classList.toggle("open");
+}
+ 
+/* ================= AUTH (unchanged) ================= */
+function logout(){
+    alert("Logged Out Successfully!");
+    window.location.href = "index.html";
+}
+ 
+
+</script>
+<!-- Chatbase Floating Button -->
+<script>
+(function () {
+  if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+    window.chatbase = (...args) => {
+      if (!window.chatbase.q) {
+        window.chatbase.q = [];
+      }
+      window.chatbase.q.push(args);
+    };
+
+    window.chatbase = new Proxy(window.chatbase, {
+      get(target, prop) {
+        if (prop === "q") return target.q;
+        return (...args) => target(prop, ...args);
+      }
+    });
+  }
+
+  function loadChatbase() {
+    const script = document.createElement("script");
+    script.src = "https://www.chatbase.co/embed.min.js";
+    script.id = "hHLfav4C0yCA3bixO6C-I"; // Your Chatbase ID
+    script.domain = "www.chatbase.co";
+    document.body.appendChild(script);
+
+    // Wait until widget loads, then position it
+    const interval = setInterval(() => {
+      const iframe = document.querySelector(
+        'iframe[src*="chatbase"], iframe[id*="chatbase"]'
+      );
+
+      if (iframe) {
+        iframe.style.position = "fixed";
+        iframe.style.bottom = "20px";
+        iframe.style.right = "20px";
+        iframe.style.zIndex = "999999";
+        iframe.style.border = "none";
+        clearInterval(interval);
+      }
+    }, 500);
+  }
+
+  if (document.readyState === "complete") {
+    loadChatbase();
+  } else {
+    window.addEventListener("load", loadChatbase);
+  }
+})();
+</script>
+</body>
+</html>
+ 
