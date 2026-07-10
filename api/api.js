@@ -1,4 +1,4 @@
-const API_URL = "https://skillmate-ai-mqcp.onrender.com/";
+const API_URL = "https://skillmate-ai-mqcp.onrender.com/api/users";
 
 export async function registerUser(data) {
 
